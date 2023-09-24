@@ -1,7 +1,20 @@
-import { Elysia } from "elysia";
+import express from 'express'
+import { UserRepositoryMemory } from './external/memory/UserRepositoryMemory'
+import { User } from './domain/entities/user'
+import { UserRegister } from './domain/use-cases/user-register'
+import { UserRegisterController } from './adapters/user-register-controller'
 
-const app = new Elysia().get("/", () => "Hello Elysia").listen(3000);
+const port = 3000
+const app = express()
+app.use(express.json())
+
+const users: User[] = []
+const userRepository = new UserRepositoryMemory(users)
+const registerUser = new UserRegister(userRepository)
+new UserRegisterController(registerUser, app)
+
+app.listen(port)
 
 console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
+  `Server is running at port:${port}`
 );
