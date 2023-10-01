@@ -1,8 +1,8 @@
 import express from 'express'
-import { UserRepositoryMemory } from './external/memory/UserRepositoryMemory'
 import { User } from './domain/entities/user'
-import { UserRegister } from './domain/use-cases/user-register'
-import { UserRegisterController } from './adapters/user-register-controller'
+import { UserRepositoryMemory } from './infra/memory/UserRepositoryMemory'
+import { UserUseCases } from './domain/use-cases/user/user-use-case'
+import { UserController } from './controller/user'
 
 const port = 3000
 const app = express()
@@ -10,8 +10,8 @@ app.use(express.json())
 
 const users: User[] = []
 const userRepository = new UserRepositoryMemory(users)
-const registerUser = new UserRegister(userRepository)
-new UserRegisterController(registerUser, app)
+const userUseCase = new UserUseCases(userRepository)
+new UserController(userUseCase, app)
 
 app.listen(port)
 
