@@ -1,5 +1,5 @@
 import { User } from "../../domain/entities/user";
-import { UserRepository } from "../../domain/use-cases/repositories/user-repository";
+import { UserRepository } from "../../repositories/user-repository";
 
 export class UserRepositoryMemory implements UserRepository{
   constructor(private users: User[]) { }

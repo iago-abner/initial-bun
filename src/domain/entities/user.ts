@@ -1,7 +1,19 @@
-export interface User {
-  id?: string;
+import { v4 as uuid } from 'uuid';
+
+class User {
+  id: string;
   name: string;
   email: string;
-  created_at?: Date;
-  updated_at?: Date;
+  createdAt: Date;
+  updatedAt: Date;
+
+  constructor(name: string, email: string) {
+    this.id = uuid();
+    this.name = name;
+    this.email = email;
+    this.createdAt = new Date();
+    this.updatedAt = new Date();
+  }
 }
+
+export { User}
