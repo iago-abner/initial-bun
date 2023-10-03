@@ -1,24 +1,24 @@
 import { Express } from 'express'
-import { UserUseCases } from "../domain/use-cases/user/user-use-case";
+import { UserUseCases } from "../../domain/use-cases/user/user-use-case";
 
 export class UserController {
   constructor(
       readonly userUseCases: UserUseCases,
       readonly server: Express
     ) {
-      server.get('/users', async (_, res) => {
+      server.get('/', async (_, res) => {
         const users = await this.userUseCases.list()
         return res.status(200).json(users)
       })
 
-      server.post('/users', async (req, res) => {
+      server.post('/', async (req, res) => {
         console.log(req.body)
         const { name, email } = req.body;
         await this.userUseCases.create({ name, email })
         return res.status(201).json("ok")
       })
 
-      server.delete('/users/:id', async (req, res) => {
+      server.delete('/:id', async (req, res) => {
         const userId = req.params.id
         try {
           await this.userUseCases.delete(userId);
@@ -28,7 +28,7 @@ export class UserController {
         }
       });
 
-      server.patch('/users/:id', async (req, res) => {
+      server.patch('/:id', async (req, res) => {
         await this.userUseCases.update(req.params.id, req.body)
         return res.status(200).json("Sucesso na atualização")
       })
